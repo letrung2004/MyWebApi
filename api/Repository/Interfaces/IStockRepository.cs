@@ -12,5 +12,6 @@ namespace api.Repository.Interfaces
         Task<Stock?> GetByIdAsync(int id);
         Task SaveAsync(Stock stock);
         Task DeleteAsync(Stock stock);
+        Task<bool> StockExists(int id);
     }
 }

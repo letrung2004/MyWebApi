@@ -14,9 +14,35 @@ namespace api.Repository.Implementations
         private readonly ApplicationDbContext _context;
         public CommentRepository(ApplicationDbContext context) => _context = context;
 
+        public async Task DeleteAsync(Comment comment)
+        {
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Comment>> GetAllAsync()
         {
             return await _context.Comments.ToListAsync();
         }
+
+        public async Task<Comment?> GetCommentAsync(int id) => await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+
+        public async Task SaveAsync(Comment request)
+        {
+            var comment = await _context.Comments
+                                        .FirstOrDefaultAsync(c => c.Id == request.Id);
+
+            if (comment == null)
+            {
+                await _context.Comments.AddAsync(request);
+            }
+            else
+            {
+                _context.Comments.Update(comment);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

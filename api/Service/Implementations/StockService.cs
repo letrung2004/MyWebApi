@@ -46,6 +46,16 @@ namespace api.Service.Implementations
             return (await _stockRepo.GetByIdAsync(id))?.toStockDto();
         }
 
+        public async Task<bool> StockExists(int id)
+        {
+            bool exists = await _stockRepo.StockExists(id);
+            if (!exists)
+            {
+                throw new KeyNotFoundException($"Stock with id {id} not found.");
+            }
+            return true;
+        }
+
         public async Task<StockDto> UpdateStock(int id, UpdateStockRequest stockDto)
         {
             var stockModel = await _stockRepo.GetByIdAsync(id);

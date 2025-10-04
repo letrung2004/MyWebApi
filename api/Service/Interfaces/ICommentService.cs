@@ -9,5 +9,9 @@ namespace api.Service.Interfaces
     public interface ICommentService
     {
         Task<List<CommentDto>> GetAllComments();
+        Task<CommentDto?> GetCommentById(int id);
+        Task DeleteComment(int id);
+        Task<CommentDto> AddComment(int id, CreateCommentRequest request);
+        Task<CommentDto> UpdateComment(int id, UpdateCommentRequest request);
     }
 }
